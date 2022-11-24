@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.drny.forum.mapper.PostMapper">
+
+    <resultMap id="postMap" type="com.drny.forum.pojo.Post">
+        <result column="images"
+                typeHandler="com.drny.forum.controller.handler.ListToTextTypeHandler"
+                jdbcType="VARCHAR"
+                property="images"/>
+        <result column="pid" property="pid"/>
+        <result column="uid" property="uid"/>
+        <result property="content" column="content"/>
+        <result property="createAt" column="createAt"/>
+        <!-- 多对一  一个帖子对应一个用户 -->
+        <association column="user" javaType="com.drny.forum.pojo.User" property="user">
+            <result column="username" property="username"/>
+            <result property="id" column="id"/>
+            <result property="icon" column="icon"/>
+        </association>
+
+    </resultMap>
+
+    <resultMap id="commentMap" type="com.drny.forum.pojo.Comment">
+        <result column="c_images"
+                typeHandler="com.drny.forum.controller.handler.ListToTextTypeHandler"
+                jdbcType="VARCHAR"
+                property="images"/>
+        <result column="c_id" property="id"/>
+        <result column="c_pid" property="pid"/>
+        <result column="c_uid" property="uid"/>
+        <result column="cid" property="cid"/>
+        <result property="content" column="c_content"/>
+        <result property="createAt" column="c_createAt"/>
+        <association column="user" javaType="com.drny.forum.pojo.User" property="user">
+            <result column="username" property="username"/>
+            <result property="id" column="id"/>
+            <result property="icon" column="icon"/>
+        </association>
+        <!--<collection property="comments" ofType="com.drny.forum.pojo.Comment">
+            <result column="c_content" property="content"/>
+        </collection>-->
+    </resultMap>
+
+    <select id="getPosts" resultMap="postMap">
+        select *
+        from post p
+                 left join user u
+                           on p.uid = u.id
+        order by pid desc
+        limit #{current},10;
+    </select>
+    <select id="getComment" resultMap="commentMap">
+        select *
+        from comment left join user u on u.id = comment.c_uid
+        where c_pid = #{id};
+    </select>
+</mapper>
