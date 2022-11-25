@@ -9,6 +9,15 @@
 </style>
 <body>
 hello world
+<p id="p1">A</p>
+
+<label for="environment">
+<input type="file" id="environment" capture="environment" accept="video/*">
+</label>
+<label for="user">
+    <input type="file" id="user" capture="user" accept="image/*">
+</label>
+
 </body>
 
 
@@ -24,7 +33,64 @@ hello world
     let number = Math.PI.valueOf();
     console.log(number)*/
 
+    var a = new String("A");
+    var b = 'A';
+    var c = String("c")
+    console.log(c);
 
+
+    console.log(b);
+
+    console.log(b.__proto__);
+
+    console.log(String.prototype);
+    a.width = function () {};
+    console.log(a);
+    let hasOwnProperty = a.hasOwnProperty("hasOwnProperty");
+    console.log(hasOwnProperty);
+
+
+
+    let p1 = document.getElementById("p1");
+
+    console.log(p1)
+
+
+    var num1 = new Number(100);
+
+   let s = Object.prototype.toString.call(num1);
+   console.log(s);
+
+   let array = [];
+   console.log(Array.prototype.isPrototypeOf(array));
+
+   for (a in array) {
+       console.log(a);
+   }
+
+   var obj = {
+       name: "lc",
+       age: 40,
+       sex: "man",
+       sayName: function () {}
+   }
+
+    // 定义属性
+    Object.defineProperty(obj, "address", {
+        enumerable: false, // 是否可见
+        configurable: true, // 是否可被删除
+        writable: false, // 是否可被修改
+        value: "江西南昌" // 值
+    });
+
+    delete obj.name;
+    delete obj.address;
+
+    for (let objKey in obj) {
+        console.log(objKey)
+    }
+
+    console.log(obj);
 
 
 </script>
